@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { borrarImagenApi, subirImagenApi } from "../services/imagenesServices";
 import { mensajeDeError } from "../utils/errores";
 
-const MAX_MB = 2.5; // Vercel limita el body a ~4.5MB y el base64 pesa ~33% más
+const MAX_MB = 4.3; // Vercel limita el body a ~4.5MB y el base64 pesa ~33% más
 
 const SubirImagen = ({ handleImgURL, handleImgPublicId, resetKey, onPendingChange }) => {
     const [archivo, setArchivo] = useState(null);
