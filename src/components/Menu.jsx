@@ -10,6 +10,9 @@ const enlaces = [
     { to: "/dashboard/catalogo-completo", texto: "Catálogo completo" },
     { to: "/dashboard/recomendaciones", texto: "Recomendaciones" },
     { to: "/dashboard/buscar", texto: "Buscar libros" },
+];
+
+const enlacesAdmin = [
     { to: "/dashboard/usuarios", texto: "Usuarios" },
     { to: "/dashboard/categorias", texto: "Categorías" },
 ];
