@@ -7,3 +7,9 @@ export const obtenerUsuariosApi = async (signal) => {
     const lista = Array.isArray(data) ? data : (data.usuarios ?? []);
     return lista.map(normalizar);
 };
+
+// Pasa al usuario autenticado a premium. El backend responde { user, token }
+export const cambiarPlanApi = async () => {
+    const { data } = await api.put("/usuarios/plan");
+    return data;
+};

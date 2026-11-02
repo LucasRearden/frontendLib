@@ -10,7 +10,7 @@ import Recomendaciones from "./Recomendaciones";
 import SoloAdmin from "./SoloAdmin";
 import Usuarios from "./Usuarios";
 import Categorias from "./Categorias";
-
+import CambiarPlan from "./CambiarPlan";
 const Rutas = () => {
   return (
     <BrowserRouter>
@@ -28,6 +28,7 @@ const Rutas = () => {
     <Route element={<SoloAdmin />}>
     <Route path="usuarios" element={<Usuarios />} />
     <Route path="categorias" element={<Categorias />} />
+    <Route path="plan" element={<CambiarPlan />} />
 </Route>
     
 <Route path="recomendaciones" element={<Recomendaciones />} />

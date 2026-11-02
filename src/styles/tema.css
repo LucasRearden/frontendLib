@@ -113,3 +113,9 @@ h2.h5 { font-size: 1.4rem; }
 .zona-imagen.pendiente { border-style: solid; border-color: #e0c36a; background: #fdf8e8; }
 .pasos { margin: 0 0 .75rem; padding-left: 1.1rem; font-size: .85rem; color: var(--apagado); }
 .pasos li { margin-bottom: .1rem; }
+
+/* Planes */
+.plan-card { height: 100%; padding: 1.5rem; }
+.plan-card.actual { border-color: var(--acento); box-shadow: 0 0 0 1px var(--acento); }
+.plan-lista { list-style: none; padding: 0; margin: 1rem 0 0; font-size: .92rem; }
+.plan-lista li { padding: .35rem 0; border-top: 1px solid var(--linea); }
