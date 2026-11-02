@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Alert, Badge, Button, Card, Col, Form, Pagination, Row, Spinner } from "react-bootstrap";
+import { Alert, Button, Col, Form, Pagination, Row, Spinner } from "react-bootstrap";
+import Portada from "./Portada";
 import { obtenerCatalogoApi } from "../services/librosServices";
 import { obtenerCategoriasApi } from "../services/categoriasServices";
 import { mensajeDeError } from "../utils/errores";
@@ -92,24 +93,17 @@ const CatalogoCompleto = () => {
             ) : (
                 <>
                     <p className="text-muted small">{datos.total} libro(s)</p>
-                    <Row xs={1} md={2} lg={3} className="g-3">
+                    <Row xs={2} md={3} lg={4} className="g-4">
                         {datos.libros.map((libro) => (
                             <Col key={libro._id}>
-                                <Card className="h-100 shadow-sm">
-                                    {libro.portadaUrl ? (
-                                        <Card.Img variant="top" src={libro.portadaUrl} alt={libro.titulo}
-                                            style={{ height: 160, objectFit: "cover" }} />
-                                    ) : (
-                                        <div className="bg-light text-muted d-flex align-items-center justify-content-center"
-                                            style={{ height: 160 }}>Sin portada</div>
-                                    )}
-                                    <Card.Body>
-                                        <Card.Title className="h6">{libro.titulo}</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted small">{libro.autor}</Card.Subtitle>
-                                        {libro.categoria?.nombre && <Badge bg="secondary">{libro.categoria.nombre}</Badge>}
-                                        {libro.sinopsis && <Card.Text className="small texto-clamp mt-2">{libro.sinopsis}</Card.Text>}
-                                    </Card.Body>
-                                </Card>
+                                <div className="libro-tile">
+                                    <Portada libro={libro} />
+                                    <div>
+                                        <h3 className="libro-titulo">{libro.titulo}</h3>
+                                        <p className="libro-autor">{libro.autor}</p>
+                                        {libro.categoria?.nombre && <span className="etiqueta">{libro.categoria.nombre}</span>}
+                                    </div>
+                                </div>
                             </Col>
                         ))}
                     </Row>

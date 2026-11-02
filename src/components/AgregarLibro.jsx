@@ -26,6 +26,8 @@ const AgregarLibro = ({ show, onHide }) => {
     const [errorApi, setErrorApi] = useState("");
     // public_id de la imagen subida pero todavía no guardada con un libro
     const publicIdRef = useRef("");
+    // Hay una imagen elegida pero sin subir
+    const [imagenPendiente, setImagenPendiente] = useState(false);
 
     // Las categorías se piden al abrir el modal
     useEffect(() => {
@@ -72,7 +74,7 @@ const AgregarLibro = ({ show, onHide }) => {
         try {
             setErrorApi("");
             const nuevo = await crearLibroApi(datos);
-            // El POST puede devolver la categoría como id: guardamos el objeto para el badge
+            // El POST puede devolver la categoría como id: guardamos el objeto para la etiqueta
             const categoria = categorias.find((c) => c._id === valores.categoria);
             dispatch(agregarLibroSlice({ ...nuevo, categoria }));
             toast.success("Libro agregado");
@@ -137,6 +139,7 @@ const AgregarLibro = ({ show, onHide }) => {
                             <Form.Group className="mt-3">
                                 <SubirImagen
                                     resetKey={show}
+                                    onPendingChange={setImagenPendiente}
                                     handleImgURL={(v) => setFieldValue("portadaUrl", v)}
                                     handleImgPublicId={(v) => {
                                         publicIdRef.current = v;
@@ -147,7 +150,10 @@ const AgregarLibro = ({ show, onHide }) => {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="outline-secondary" onClick={cerrar} disabled={isSubmitting}>Cancelar</Button>
-                            <Button type="submit" disabled={!dirty || !isValid || isSubmitting}>
+                            {imagenPendiente && (
+                                <span className="text-muted small me-auto">Subí la imagen o quitala para continuar.</span>
+                            )}
+                            <Button type="submit" disabled={!dirty || !isValid || isSubmitting || imagenPendiente}>
                                 {isSubmitting ? <Spinner size="sm" animation="border" /> : "Agregar"}
                             </Button>
                         </Modal.Footer>

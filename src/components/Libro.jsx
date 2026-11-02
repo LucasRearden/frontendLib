@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Badge, Button, Card, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import {
     actualizarLibroSlice,
@@ -8,6 +8,7 @@ import {
 } from "../redux/features/librosSlice";
 import { actualizarLibroApi, borrarLibroApi } from "../services/librosServices";
 import { mensajeDeError } from "../utils/errores";
+import Portada from "./Portada";
 
 const Libro = ({ libro }) => {
     const dispatch = useDispatch();
@@ -58,102 +59,37 @@ const Libro = ({ libro }) => {
     };
 
     return (
-        <Card className="h-100 shadow-sm">
-            {libro.portadaUrl ? (
-                <Card.Img
-                    variant="top"
-                    src={libro.portadaUrl}
-                    alt={libro.titulo}
-                    style={{ height: 180, objectFit: "cover" }}
-                />
-            ) : (
-                <div
-                    className="bg-light text-muted d-flex align-items-center justify-content-center"
-                    style={{ height: 180 }}
-                >
-                    Sin portada
-                </div>
-            )}
+        <div className="libro-tile">
+            <Portada libro={libro} />
 
-            <Card.Body className="d-flex flex-column">
-                {editando ? (
-                    <>
-                        <Form.Control
-                            className="mb-2"
-                            value={titulo}
-                            isInvalid={!titulo.trim()}
-                            onChange={(e) => setTitulo(e.target.value)}
-                            placeholder="Título"
-                        />
-                        <Form.Control
-                            className="mb-2"
-                            value={autor}
-                            isInvalid={!autor.trim()}
-                            onChange={(e) => setAutor(e.target.value)}
-                            placeholder="Autor"
-                        />
-                        <Form.Control
-                            as="textarea"
-                            rows={3}
-                            className="mb-2"
-                            value={sinopsis}
-                            onChange={(e) => setSinopsis(e.target.value)}
-                            placeholder="Sinopsis"
-                        />
-                        <div className="mt-auto d-flex gap-2">
-                            <Button
-                                size="sm"
-                                onClick={guardar}
-                                disabled={invalido || guardando}
-                            >
-                                Guardar
-                            </Button>
-                            <Button
-                                size="sm"
-                                variant="outline-secondary"
-                                onClick={cancelar}
-                                disabled={guardando}
-                            >
-                                Cancelar
-                            </Button>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <Card.Title className="h6">{libro.titulo}</Card.Title>
-                        <Card.Subtitle className="mb-2 text-muted small">
-                            {libro.autor}
-                        </Card.Subtitle>
-                        {libro.categoria?.nombre && (
-                            <div className="mb-2">
-                                <Badge bg="secondary">{libro.categoria.nombre}</Badge>
-                            </div>
-                        )}
-                        {libro.sinopsis && (
-                            <Card.Text className="small texto-clamp">
-                                {libro.sinopsis}
-                            </Card.Text>
-                        )}
-                        <div className="mt-auto d-flex gap-2">
-                            <Button
-                                size="sm"
-                                variant="outline-primary"
-                                onClick={() => setEditando(true)}
-                            >
-                                Editar
-                            </Button>
-                            <Button
-                                size="sm"
-                                variant="outline-danger"
-                                onClick={borrar}
-                            >
-                                Eliminar
-                            </Button>
-                        </div>
-                    </>
-                )}
-            </Card.Body>
-        </Card>
+            {editando ? (
+                <div className="d-flex flex-column gap-2">
+                    <Form.Control size="sm" value={titulo} isInvalid={!titulo.trim()}
+                        onChange={(e) => setTitulo(e.target.value)} placeholder="Título" />
+                    <Form.Control size="sm" value={autor} isInvalid={!autor.trim()}
+                        onChange={(e) => setAutor(e.target.value)} placeholder="Autor" />
+                    <Form.Control size="sm" as="textarea" rows={3} value={sinopsis}
+                        onChange={(e) => setSinopsis(e.target.value)} placeholder="Sinopsis" />
+                    <div className="d-flex gap-2">
+                        <Button size="sm" onClick={guardar} disabled={invalido || guardando}>Guardar</Button>
+                        <Button size="sm" variant="outline-secondary" onClick={cancelar} disabled={guardando}>Cancelar</Button>
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <div>
+                        <h3 className="libro-titulo">{libro.titulo}</h3>
+                        <p className="libro-autor">{libro.autor}</p>
+                        {libro.categoria?.nombre && <span className="etiqueta">{libro.categoria.nombre}</span>}
+                        {libro.sinopsis && <p className="libro-sinopsis texto-clamp">{libro.sinopsis}</p>}
+                    </div>
+                    <div className="libro-acciones">
+                        <button type="button" className="btn-texto" onClick={() => setEditando(true)}>Editar</button>
+                        <button type="button" className="btn-texto peligro" onClick={borrar}>Eliminar</button>
+                    </div>
+                </>
+            )}
+        </div>
     );
 };
 

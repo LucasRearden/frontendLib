@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/estilos.css";
+import "./styles/tema.css";
 
 import { store } from "./redux/store.js";
 import Rutas from "./components/Rutas.jsx";

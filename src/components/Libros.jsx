@@ -23,30 +23,39 @@ const Libros = () => {
 
     return (
         <>
-            <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-                <div className="d-flex align-items-center gap-3">
-                    <h2 className="h5 mb-0">Mis libros ({libros.length})</h2>
-                    <Button size="sm" onClick={() => setMostrarModal(true)} disabled={limiteAlcanzado}>
-                        + Agregar libro
-                    </Button>
-                    {limiteAlcanzado && (
-                        <small className="text-muted">Llegaste al límite de {LIMITE_PLUS} libros del plan plus.</small>
-                    )}
+            <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+                <div>
+                    <h2 className="h5 mb-1">Mis libros</h2>
+                    <span className="text-muted small">
+                        {libros.length} {libros.length === 1 ? "libro" : "libros"}
+                        {usuario?.plan === "plus" && ` de ${LIMITE_PLUS} disponibles en tu plan`}
+                    </span>
                 </div>
-                <Form.Control
-                    style={{ maxWidth: 260 }}
-                    placeholder="Filtrar por título o autor"
-                    value={filtro}
-                    onChange={(e) => setFiltro(e.target.value)}
-                />
+                <div className="d-flex flex-wrap gap-2">
+                    <Form.Control
+                        style={{ width: 240 }}
+                        placeholder="Buscar por título o autor"
+                        value={filtro}
+                        onChange={(e) => setFiltro(e.target.value)}
+                    />
+                    <Button onClick={() => setMostrarModal(true)} disabled={limiteAlcanzado}>
+                        Agregar libro
+                    </Button>
+                </div>
             </div>
 
+            {limiteAlcanzado && (
+                <Alert variant="light">
+                    Llegaste al límite de {LIMITE_PLUS} libros del plan plus.
+                </Alert>
+            )}
+
             {libros.length === 0 ? (
-                <Alert variant="light">Todavía no cargaste ningún libro.</Alert>
+                <Alert variant="light">Tu biblioteca está vacía. Agregá tu primer libro para empezar.</Alert>
             ) : visibles.length === 0 ? (
-                <Alert variant="light">Ningún libro coincide con el filtro.</Alert>
+                <Alert variant="light">Ningún libro coincide con tu búsqueda.</Alert>
             ) : (
-                <Row xs={1} md={2} lg={3} className="g-3">
+                <Row xs={2} md={3} lg={4} className="g-4">
                     {visibles.map((libro) => (
                         <Col key={libro._id}>
                             <Libro libro={libro} />

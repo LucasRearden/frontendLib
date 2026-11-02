@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap");
+
+:root {
+    --papel: #f5f6f3;
+    --superficie: #ffffff;
+    --tinta: #1c2422;
+    --apagado: #69736f;
+    --linea: #dfe4e0;
+    --acento: #1f5a4f;
+    --acento-oscuro: #17463d;
+    --acento-suave: #e6efec;
+    --serif: "Newsreader", Georgia, serif;
+
+    --bs-body-bg: var(--papel);
+    --bs-body-color: var(--tinta);
+    --bs-body-font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --bs-primary: #1f5a4f;
+    --bs-primary-rgb: 31, 90, 79;
+    --bs-link-color-rgb: 31, 90, 79;
+    --bs-link-hover-color-rgb: 23, 70, 61;
+    --bs-border-color: var(--linea);
+    --bs-secondary-color: var(--apagado);
+}
+
+body { background: var(--papel); color: var(--tinta); -webkit-font-smoothing: antialiased; }
+.container { max-width: 1080px; }
+
+/* Tipografía */
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: var(--serif);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--tinta);
+}
+h1.h4 { font-size: 1.9rem; }
+h2.h5 { font-size: 1.4rem; }
+.text-muted { color: var(--apagado) !important; }
+
+/* Barra de navegación */
+.navbar { background: var(--superficie) !important; border-bottom: 1px solid var(--linea) !important; margin-bottom: 2rem !important; }
+.navbar-brand { font-family: var(--serif); font-weight: 600; font-size: 1.45rem; color: var(--acento) !important; letter-spacing: -0.01em; }
+.navbar .nav-link { color: var(--apagado); font-weight: 500; font-size: .95rem; padding: .5rem .8rem; }
+.navbar .nav-link:hover { color: var(--tinta); }
+.navbar .nav-link.active {
+    color: var(--tinta);
+    text-decoration: underline;
+    text-decoration-color: var(--acento);
+    text-decoration-thickness: 2px;
+    text-underline-offset: .55rem;
+}
+
+/* Botones */
+.btn { border-radius: .5rem; font-weight: 500; }
+.btn-primary {
+    --bs-btn-bg: var(--acento); --bs-btn-border-color: var(--acento);
+    --bs-btn-hover-bg: var(--acento-oscuro); --bs-btn-hover-border-color: var(--acento-oscuro);
+    --bs-btn-active-bg: var(--acento-oscuro); --bs-btn-active-border-color: var(--acento-oscuro);
+    --bs-btn-disabled-bg: var(--acento); --bs-btn-disabled-border-color: var(--acento);
+}
+.btn-outline-primary {
+    --bs-btn-color: var(--acento); --bs-btn-border-color: var(--acento);
+    --bs-btn-hover-bg: var(--acento); --bs-btn-hover-border-color: var(--acento);
+    --bs-btn-active-bg: var(--acento); --bs-btn-active-border-color: var(--acento);
+}
+.btn-outline-secondary {
+    --bs-btn-color: var(--tinta); --bs-btn-border-color: var(--linea);
+    --bs-btn-hover-bg: #eef1ee; --bs-btn-hover-color: var(--tinta); --bs-btn-hover-border-color: #cfd6d1;
+    --bs-btn-active-bg: #e6ebe7; --bs-btn-active-color: var(--tinta); --bs-btn-active-border-color: #cfd6d1;
+}
+.btn-texto { background: none; border: 0; padding: 0; font-size: .85rem; font-weight: 500; color: var(--apagado); }
+.btn-texto:hover { color: var(--tinta); text-decoration: underline; }
+.btn-texto.peligro:hover { color: #b42318; }
+
+/* Formularios */
+.form-control, .form-select { background: #fff; border-color: var(--linea); border-radius: .5rem; }
+.form-control:focus, .form-select:focus { border-color: var(--acento); box-shadow: 0 0 0 .2rem rgba(31, 90, 79, .14); }
+.form-label { font-weight: 500; font-size: .9rem; }
+
+/* Tarjetas, avisos, modal, tablas */
+.card { background: var(--superficie); border: 1px solid var(--linea); border-radius: .75rem; box-shadow: none; }
+.shadow-sm, .shadow { box-shadow: none !important; }
+.alert { border-radius: .6rem; }
+.alert-light { background: transparent; border: 1px dashed #cbd3ce; color: var(--apagado); }
+.modal-content { border: 0; border-radius: .9rem; }
+.modal-header, .modal-footer { border-color: var(--linea); }
+.table { --bs-table-bg: var(--superficie); border-color: var(--linea); }
+.table thead th { font-weight: 500; font-size: .85rem; color: var(--apagado); border-bottom-color: var(--linea); }
+.pagination { --bs-pagination-active-bg: var(--acento); --bs-pagination-active-border-color: var(--acento); --bs-pagination-color: var(--acento); }
+.badge { font-weight: 500; }
+
+/* Libros: grilla tipo estante */
+.libro-tile { display: flex; flex-direction: column; gap: .75rem; height: 100%; }
+.portada {
+    aspect-ratio: 3 / 4; width: 100%; border-radius: .35rem; overflow: hidden; background: var(--linea);
+    box-shadow: 0 1px 2px rgba(28, 36, 34, .14), 0 10px 18px -12px rgba(28, 36, 34, .35);
+}
+.portada img { width: 100%; height: 100%; object-fit: contain; display: block; background: #e9ece8; } /* contain: la foto se ve entera, sin recortes */
+.portada-vacia { height: 100%; display: flex; align-items: flex-end; padding: 1rem 1rem 1rem 1.15rem; border-left: 7px solid rgba(0, 0, 0, .2); }
+.portada-titulo {
+    font-family: var(--serif); font-size: 1.2rem; line-height: 1.2; color: rgba(255, 255, 255, .96);
+    display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden;
+}
+.libro-titulo { font-size: 1.1rem; line-height: 1.25; margin: 0; }
+.libro-autor { color: var(--apagado); font-size: .9rem; margin: .15rem 0 .4rem; }
+.etiqueta { display: inline-block; font-size: .78rem; color: var(--acento); background: var(--acento-suave); padding: .1rem .55rem; border-radius: 999px; }
+.libro-acciones { display: flex; gap: 1rem; margin-top: auto; }
+.texto-clamp { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.libro-sinopsis { font-size: .88rem; color: var(--apagado); margin: .5rem 0 0; }
+
+/* Subida de portada */
+.zona-imagen { border: 1.5px dashed #c5cdc8; border-radius: .7rem; padding: 1rem; background: #fbfcfb; }
+.zona-imagen.lista { border-style: solid; border-color: #b9d3cb; background: var(--acento-suave); }
+.zona-imagen.pendiente { border-style: solid; border-color: #e0c36a; background: #fdf8e8; }
+.pasos { margin: 0 0 .75rem; padding-left: 1.1rem; font-size: .85rem; color: var(--apagado); }
+.pasos li { margin-bottom: .1rem; }
