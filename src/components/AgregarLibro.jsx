@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { agregarLibroSlice } from "../redux/features/librosSlice";
 import { crearLibroApi } from "../services/librosServices";
 import { obtenerCategoriasApi } from "../services/categoriasServices";
+import { borrarImagenApi } from "../services/imagenesServices";
+import SubirImagen from "./SubirImagen";
 import { mensajeDeError } from "../utils/errores";
 
 const esquema = Yup.object({
@@ -22,6 +24,8 @@ const AgregarLibro = ({ show, onHide }) => {
     const [cargandoCat, setCargandoCat] = useState(false);
     const [errorCat, setErrorCat] = useState("");
     const [errorApi, setErrorApi] = useState("");
+    // public_id de la imagen subida pero todavía no guardada con un libro
+    const publicIdRef = useRef("");
 
     // Las categorías se piden al abrir el modal
     useEffect(() => {
@@ -45,6 +49,11 @@ const AgregarLibro = ({ show, onHide }) => {
 
     const cerrar = () => {
         setErrorApi("");
+        // Si subió una imagen y canceló, la borramos de Cloudinary para no dejar huérfanas
+        if (publicIdRef.current) {
+            borrarImagenApi(publicIdRef.current).catch(() => {});
+            publicIdRef.current = "";
+        }
         onHide();
     };
 
@@ -55,6 +64,10 @@ const AgregarLibro = ({ show, onHide }) => {
             categoria: valores.categoria, // id de la categoría
         };
         if (valores.sinopsis.trim()) datos.sinopsis = valores.sinopsis.trim();
+        if (valores.portadaUrl) {
+            datos.portadaUrl = valores.portadaUrl;
+            datos.portadaPublicId = valores.portadaPublicId;
+        }
 
         try {
             setErrorApi("");
@@ -63,6 +76,7 @@ const AgregarLibro = ({ show, onHide }) => {
             const categoria = categorias.find((c) => c._id === valores.categoria);
             dispatch(agregarLibroSlice({ ...nuevo, categoria }));
             toast.success("Libro agregado");
+            publicIdRef.current = ""; // la imagen ya quedó asociada al libro
             resetForm();
             onHide();
         } catch (e) {
@@ -75,11 +89,11 @@ const AgregarLibro = ({ show, onHide }) => {
     return (
         <Modal show={show} onHide={cerrar} centered>
             <Formik
-                initialValues={{ titulo: "", autor: "", categoria: "", sinopsis: "" }}
+                initialValues={{ titulo: "", autor: "", categoria: "", sinopsis: "", portadaUrl: "", portadaPublicId: "" }}
                 validationSchema={esquema}
                 onSubmit={crear}
             >
-                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid, dirty }) => (
+                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid, dirty, setFieldValue }) => (
                     <Form onSubmit={handleSubmit} noValidate>
                         <Modal.Header closeButton>
                             <Modal.Title className="h5">Agregar libro</Modal.Title>
@@ -118,6 +132,17 @@ const AgregarLibro = ({ show, onHide }) => {
                                 <Form.Label>Sinopsis <span className="text-muted">(opcional)</span></Form.Label>
                                 <Form.Control as="textarea" rows={3} name="sinopsis" value={values.sinopsis}
                                     onChange={handleChange} onBlur={handleBlur} />
+                            </Form.Group>
+
+                            <Form.Group className="mt-3">
+                                <SubirImagen
+                                    resetKey={show}
+                                    handleImgURL={(v) => setFieldValue("portadaUrl", v)}
+                                    handleImgPublicId={(v) => {
+                                        publicIdRef.current = v;
+                                        setFieldValue("portadaPublicId", v);
+                                    }}
+                                />
                             </Form.Group>
                         </Modal.Body>
                         <Modal.Footer>
