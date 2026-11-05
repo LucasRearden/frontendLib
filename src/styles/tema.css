@@ -119,3 +119,18 @@ h2.h5 { font-size: 1.4rem; }
 .plan-card.actual { border-color: var(--acento); box-shadow: 0 0 0 1px var(--acento); }
 .plan-lista { list-style: none; padding: 0; margin: 1rem 0 0; font-size: .92rem; }
 .plan-lista li { padding: .35rem 0; border-top: 1px solid var(--linea); }
+
+.navbar .nav-link { color: var(--apagado); font-weight: 500; font-size: .92rem; padding: .5rem .6rem; white-space: nowrap; }
+.navbar .btn, .navbar .navbar-text { white-space: nowrap; }
+
+/* Loader global */
+.loader-global { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center; background: rgba(245, 246, 243, .6); }
+.loader-caja { display: flex; align-items: center; gap: .75rem; background: #fff; border: 1px solid var(--linea); border-radius: .75rem; padding: .9rem 1.3rem; font-weight: 500; }
+.loader-global .spinner-border { color: var(--acento); }
+
+/* Resumen */
+.uso-card { height: 100%; padding: 1.5rem; }
+.uso-numero { font-family: var(--serif); font-size: 3rem; line-height: 1; margin: 0 0 .35rem; color: var(--tinta); }
+.progress { height: .55rem; background: var(--linea); border-radius: 999px; }
+.progress-bar { background: var(--acento); }
+details summary { cursor: pointer; }

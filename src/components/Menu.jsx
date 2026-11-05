@@ -11,6 +11,7 @@ const enlaces = [
     { to: "/dashboard/recomendaciones", texto: "Recomendaciones" },
     { to: "/dashboard/buscar", texto: "Buscar libros" },
         { to: "/dashboard/plan", texto: "Mi plan" },
+            { to: "/dashboard/resumen", texto: "Resumen" },
 ];
 
 const enlacesAdmin = [

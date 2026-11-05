@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/estilos.css";
 import "./styles/tema.css";
+import LoaderGlobal from "./components/LoaderGlobal";
 
 import { store } from "./redux/store.js";
 import Rutas from "./components/Rutas.jsx";
@@ -13,6 +14,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <ToastContainer />
+      <LoaderGlobal />
       <Rutas />
     </Provider>
   </StrictMode>,
