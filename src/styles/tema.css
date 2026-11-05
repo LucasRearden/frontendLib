@@ -134,3 +134,11 @@ h2.h5 { font-size: 1.4rem; }
 .progress { height: .55rem; background: var(--linea); border-radius: 999px; }
 .progress-bar { background: var(--acento); }
 details summary { cursor: pointer; }
+
+.menu-usuario { color: var(--apagado); text-decoration: none; font-weight: 500; font-size: .92rem; white-space: nowrap; }
+.menu-usuario:hover { color: var(--tinta); text-decoration: underline; }
+.avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--acento-suave); color: var(--acento); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 1.9rem; text-transform: uppercase; flex-shrink: 0; }
+.perfil-datos { margin: 0; }
+.perfil-datos > div { display: flex; justify-content: space-between; gap: 1rem; padding: .75rem 0; border-top: 1px solid var(--linea); }
+.perfil-datos dt { font-weight: 500; color: var(--apagado); font-size: .9rem; }
+.perfil-datos dd { margin: 0; text-align: right; }

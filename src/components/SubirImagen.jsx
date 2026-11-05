@@ -6,7 +6,7 @@ import { mensajeDeError } from "../utils/errores";
 
 const MAX_MB = 4.3; // Vercel limita el body a ~4.5MB y el base64 pesa ~33% más
 
-const SubirImagen = ({ handleImgURL, handleImgPublicId, resetKey, onPendingChange }) => {
+const SubirImagen = ({ handleImgURL, handleImgPublicId, resetKey, onPendingChange, titulo, ayuda }) => {
     const [archivo, setArchivo] = useState(null);
     const [preview, setPreview] = useState("");
     const [imagenSubida, setImagenSubida] = useState(null);
@@ -100,7 +100,7 @@ const SubirImagen = ({ handleImgURL, handleImgPublicId, resetKey, onPendingChang
 
     return (
         <div>
-            <Form.Label>Portada <span className="text-muted fw-normal">(opcional)</span></Form.Label>
+           <Form.Label>{titulo ?? <>Portada <span className="text-muted fw-normal">(opcional)</span></>}</Form.Label>
 
             <div className={`zona-imagen ${estado}`}>
                 <input id={inputId} type="file" accept="image/*" hidden onChange={handleFileChange}
@@ -116,7 +116,7 @@ const SubirImagen = ({ handleImgURL, handleImgPublicId, resetKey, onPendingChang
                         <Button as="label" htmlFor={inputId} variant="outline-secondary" size="sm">
                             Elegir imagen
                         </Button>
-                        <div className="text-muted small mt-2">Si no querés portada, dejalo así y agregá el libro.</div>
+                       <div className="text-muted small mt-2">{ayuda ?? "Si no querés portada, dejalo así y agregá el libro."}</div>
                     </>
                 )}
 

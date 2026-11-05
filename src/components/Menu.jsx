@@ -45,7 +45,7 @@ const Menu = () => {
                             </Nav.Link>
                         ))}
                     </Nav>
-                    <span className="me-3 text-muted">{usuario?.username}</span>
+                  <Link to="/dashboard/perfil" className="menu-usuario me-3">{usuario?.username}</Link>
                     <Button variant="outline-secondary" size="sm" onClick={cerrarSesion}>
                         Cerrar sesión
                     </Button>

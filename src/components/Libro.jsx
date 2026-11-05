@@ -7,8 +7,10 @@ import {
     borrarLibroSlice,
 } from "../redux/features/librosSlice";
 import { actualizarLibroApi, borrarLibroApi } from "../services/librosServices";
+import { borrarImagenApi } from "../services/imagenesServices";
 import { mensajeDeError } from "../utils/errores";
 import Portada from "./Portada";
+import SubirImagen from "./SubirImagen";
 
 const Libro = ({ libro }) => {
     const dispatch = useDispatch();
@@ -17,10 +19,18 @@ const Libro = ({ libro }) => {
     const [autor, setAutor] = useState(libro.autor);
     const [sinopsis, setSinopsis] = useState(libro.sinopsis ?? "");
     const [guardando, setGuardando] = useState(false);
+    // Foto nueva ya subida a Cloudinary, todavía sin guardar en el libro
+    const [nuevaUrl, setNuevaUrl] = useState("");
+    const [nuevaPublicId, setNuevaPublicId] = useState("");
+    const [imagenPendiente, setImagenPendiente] = useState(false);
 
     const invalido = !titulo.trim() || !autor.trim();
 
     const cancelar = () => {
+        // Si subió una foto nueva y canceló, la borramos para no dejarla huérfana
+        if (nuevaPublicId) borrarImagenApi(nuevaPublicId).catch(() => {});
+        setNuevaUrl("");
+        setNuevaPublicId("");
         setTitulo(libro.titulo);
         setAutor(libro.autor);
         setSinopsis(libro.sinopsis ?? "");
@@ -33,11 +43,23 @@ const Libro = ({ libro }) => {
             autor: autor.trim(),
             sinopsis: sinopsis.trim(),
         };
+        if (nuevaUrl) {
+            cambios.portadaUrl = nuevaUrl;
+            cambios.portadaPublicId = nuevaPublicId;
+        }
+
         try {
             setGuardando(true);
             await actualizarLibroApi(libro._id, cambios);
             // El PATCH devuelve el libro sin populate: solo fusionamos lo editado
             dispatch(actualizarLibroSlice({ id: libro._id, cambios }));
+
+            // La foto anterior ya no se usa: se borra de Cloudinary (sin romper si falla)
+            if (nuevaUrl && libro.portadaPublicId) {
+                borrarImagenApi(libro.portadaPublicId).catch(() => {});
+            }
+            setNuevaUrl("");
+            setNuevaPublicId("");
             setEditando(false);
             toast.success("Libro actualizado");
         } catch (e) {
@@ -70,9 +92,20 @@ const Libro = ({ libro }) => {
                         onChange={(e) => setAutor(e.target.value)} placeholder="Autor" />
                     <Form.Control size="sm" as="textarea" rows={3} value={sinopsis}
                         onChange={(e) => setSinopsis(e.target.value)} placeholder="Sinopsis" />
-                    <div className="d-flex gap-2">
-                        <Button size="sm" onClick={guardar} disabled={invalido || guardando}>Guardar</Button>
+
+                    <SubirImagen
+                        resetKey={editando}
+                        titulo="Cambiar portada"
+                        ayuda="Si no querés cambiarla, dejalo así y guardá."
+                        onPendingChange={setImagenPendiente}
+                        handleImgURL={setNuevaUrl}
+                        handleImgPublicId={setNuevaPublicId}
+                    />
+
+                    <div className="d-flex align-items-center gap-2">
+                        <Button size="sm" onClick={guardar} disabled={invalido || guardando || imagenPendiente}>Guardar</Button>
                         <Button size="sm" variant="outline-secondary" onClick={cancelar} disabled={guardando}>Cancelar</Button>
+                        {imagenPendiente && <span className="text-muted small">Subí o quitá la imagen.</span>}
                     </div>
                 </div>
             ) : (

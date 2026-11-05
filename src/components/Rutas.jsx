@@ -12,6 +12,7 @@ import Usuarios from "./Usuarios";
 import Categorias from "./Categorias";
 import CambiarPlan from "./CambiarPlan";
 import Resumen from "./Resumen";
+import Perfil from "./Perfil";
 
 const Rutas = () => {
   return (
@@ -29,6 +30,7 @@ const Rutas = () => {
           <Route path="recomendaciones" element={<Recomendaciones />} />
           <Route path="plan" element={<CambiarPlan />} />
           <Route path="resumen" element={<Resumen />} />
+          <Route path="perfil" element={<Perfil />} />
           {/* Solo administradores */}
           <Route element={<SoloAdmin />}>
             <Route path="usuarios" element={<Usuarios />} />
